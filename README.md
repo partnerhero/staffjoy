@@ -1,3 +1,8 @@
+# Deploying to PH Prod
+
+`torus run -- phnow -e BASE_URL -e env -e RECAPTCHA_PRIVATE_KEY -e RECAPTCHA_PUBLIC_KEY -e REDIS_HOST -e REDIS_PORT -e SECRET_KEY -e SQLALCHEMY_DATABASE_URL -e MANDRILL_API_KEY`
+
+
 # Suite, aka Staffjoy V1
 
 [![Build Status](https://travis-ci.org/Staffjoy/suite.svg?branch=master)](https://travis-ci.org/Staffjoy/suite) [![Moonlight](https://img.shields.io/badge/contractors-1-brightgreen.svg)](https://moonlightwork.com/staffjoy) [![Docker Automated build](https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg)](https://hub.docker.com/r/staffjoy/suite/)
