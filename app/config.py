@@ -10,7 +10,7 @@ class DefaultConfig:
     URL = os.environ.get("BASE_URL", "https://suite.staffjoy.com")
 
     # Toggle this if you don't want randoms from the internet creating companies
-    ALLOW_COMPANY_SIGNUPS = True
+    #ALLOW_COMPANY_SIGNUPS = True
 
     MANDRILL_API_KEY = os.environ.get("MANDRILL_API_KEY")
     FROM_EMAIL = os.environ.get("FROM_EMAIL")
@@ -29,7 +29,7 @@ class DefaultConfig:
     SECRET_KEY = os.environ.get("SECRET_KEY")
 
     # Link to job application form
-    CAREER_APPLICATION_URL = "https://staffjoy.com"
+    #CAREER_APPLICATION_URL = "https://staffjoy.com"
 
     # Incident Tracking (optional) 
     STATUS_PAGE_ID = os.environ.get("STATUS_PAGE_ID")
@@ -52,7 +52,7 @@ class DefaultConfig:
     TWILIO_NUMBER = {
         # Country code to number. At least one is necessary that matches DEFAULT_COUNTRY_CODE in constants.py
         # e.g. 
-        "1": "1234567890",
+        "1": "13346211029",
     }
 
     #
