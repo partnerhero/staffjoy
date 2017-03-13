@@ -1,6 +1,7 @@
 # Deploying to PH Prod
 
-`torus run -- phnow -e BASE_URL -e env -e RECAPTCHA_PRIVATE_KEY -e RECAPTCHA_PUBLIC_KEY -e REDIS_HOST -e REDIS_PORT -e SECRET_KEY -e SQLALCHEMY_DATABASE_URL -e MANDRILL_API_KEY`
+Note: This uses the `--alias` flag, which is soon to be depreciated.
+`torus run -- now -t $PH_ZEIT_KEY -e BASE_URL -e ENV -e RECAPTCHA_PRIVATE_KEY -e RECAPTCHA_PUBLIC_KEY -e REDIS_HOST -e REDIS_PORT -e SECRET_KEY -e SQLALCHEMY_DATABASE_URL -e MANDRILL_API_KEY -e TWILIO_ACCOUNT_SID -e TWILIO_AUTH_TOKEN -e FROM_EMAIL -a staffjoy.partnerhero.com --public`
 
 
 # Suite, aka Staffjoy V1
