@@ -47,7 +47,7 @@ class DefaultConfig:
     # Logging
     LOG_LEVEL = logging.INFO
     PAPERTRAIL = os.environ.get(
-        "PAPERTRAIL", "logs5.papertrailapp.com:40462")  # e.g. "logs.papertrailapp.com:1234"
+        "PAPERTRAIL")  # e.g. "logs.papertrailapp.com:1234"
 
     # Twilio
     TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")

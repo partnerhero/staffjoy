@@ -9,6 +9,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.redis import Redis
 from celery import Celery
+from raven.contrib.flask import Sentry
 import phonenumbers
 
 from config import config  # pylint: disable=relative-import
@@ -41,7 +42,7 @@ js_manager_app_req = loader.manager_app()
 js_myschedules_app_req = loader.myschedules_app()
 css_default = stylesheets.css_default()
 css_blog = stylesheets.css_blog()
-
+sentry = Sentry(dsn=os.environ.get("SENTRY"))
 
 def create_celery_app(app=None):
     """Return a celery app in app context"""
@@ -82,6 +83,7 @@ def create_app(config_name, register_blueprints=True):
 
     # Logging
     app.logger.setLevel(app.config.get("LOG_LEVEL"))
+    sentry.init_app(app)
 
     # if not in debug mode, configure papertrail
     if not app.debug:
