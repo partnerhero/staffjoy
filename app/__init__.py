@@ -85,32 +85,41 @@ def create_app(config_name, register_blueprints=True):
 
     # if not in debug mode, configure papertrail
     if not app.debug:
-        # mostly copied from papertrail config
         import logging
-        from logging.handlers import SysLogHandler
-
-        class ContextFilter(logging.Filter):
-            hostname = "staffjoy-app-%s" % app.config.get("ENV")
-
-            def filter(self, record):
-                record.hostname = ContextFilter.hostname
-                return True
-
-        f = ContextFilter()
-        app.logger.addFilter(f)
-
-        papertrail_tuple = app.config.get("PAPERTRAIL").split(":")
-
-        syslog = SysLogHandler(
-            address=(papertrail_tuple[0], int(papertrail_tuple[1])))
-
+        handler = logging.FileHandler("error.log")
+        handler.setLevel(logging.DEBUG)
         formatter = logging.Formatter(
-            '%(asctime)s %(hostname)s staffjoy-app %(levelname)s %(message)s',
-            datefmt='%Y-%m-%dT%H:%M:%S')
+            '%(asctime)s %(hostname)s -app %(levelname)s %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S')
+        handler.setFormatter(formatter)
+        app.logger.addHandler(handler)
+    #    logging.basicConfig(filename="error.log", level=logging.DEBUG)
+    #     # mostly copied from papertrail config
+    #     import logging
+    #     from logging.handlers import SysLogHandler
 
-        syslog.setFormatter(formatter)
-        syslog.setLevel(logging.INFO)
-        app.logger.addHandler(syslog)
+    #     class ContextFilter(logging.Filter):
+    #         hostname = "staffjoy-app-%s" % app.config.get("ENV")
+
+    #         def filter(self, record):
+    #             record.hostname = ContextFilter.hostname
+    #             return True
+
+    #     f = ContextFilter()
+    #     app.logger.addFilter(f)
+
+    #     papertrail_tuple = app.config.get("PAPERTRAIL").split(":")
+
+    #     syslog = SysLogHandler(
+    #         address=(papertrail_tuple[0], int(papertrail_tuple[1])))
+
+    #     formatter = logging.(
+    #         '%(asctime)s %(hostname)s staffjoy-app %(levelname)s %(message)s',
+    #         datefmt='%Y-%m-%dFormatterT%H:%M:%S')
+
+    #     syslog.setFormatter(formatter)
+    #     syslog.setLevel(logging.INFO)
+    #     app.logger.addHandler(syslog)
 
     assets.register("js_default_req", js_default_req)
     assets.register("js_vendor_single_page_req", js_vendor_single_page_req)

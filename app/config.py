@@ -10,7 +10,7 @@ class DefaultConfig:
     URL = os.environ.get("BASE_URL", "https://suite.staffjoy.com")
 
     # Toggle this if you don't want randoms from the internet creating companies
-    #ALLOW_COMPANY_SIGNUPS = True
+    ALLOW_COMPANY_SIGNUPS = True
 
     MANDRILL_API_KEY = os.environ.get("MANDRILL_API_KEY")
     FROM_EMAIL = os.environ.get("FROM_EMAIL")
@@ -20,9 +20,12 @@ class DefaultConfig:
     RECAPTCHA_USE_SSL = True
 
     # Redis - mostly from defaults
+    REDIS_URI = os.environ.get("REDIS_URI")
     REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
     REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
     REDIS_DATABASE = os.environ.get("REDIS_DATABASE", 0)
+    REDIS_USER = os.environ.get("REDIS_USER")
+    REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD")
 
     SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
 
@@ -44,7 +47,7 @@ class DefaultConfig:
     # Logging
     LOG_LEVEL = logging.INFO
     PAPERTRAIL = os.environ.get(
-        "PAPERTRAIL")  # e.g. "logs.papertrailapp.com:1234"
+        "PAPERTRAIL", "logs5.papertrailapp.com:40462")  # e.g. "logs.papertrailapp.com:1234"
 
     # Twilio
     TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
@@ -77,13 +80,15 @@ class DefaultConfig:
     QUEUE_TIMEOUT = 4 * 60 * 60  # 4 hours in seconds
 
     # This is redis config again - but used for queues
-    CELERY_BROKER_URL = "redis://%s:%s/%s" % (os.environ.get(
-        "REDIS_HOST", "localhost"), os.environ.get(
-            "REDIS_PORT", 6379), os.environ.get("REDIS_DATABASE", 0))
+    # CELERY_BROKER_URL = "redis://%s:%s/%s" % (os.environ.get(
+    #     "REDIS_HOST", "localhost"), os.environ.get(
+    #         "REDIS_PORT", 6379), os.environ.get("REDIS_DATABASE", 0))
 
-    CELERY_RESULT_BACKEND = "redis://%s:%s/%s" % (os.environ.get(
-        "REDIS_HOST", "localhost"), os.environ.get(
-            "REDIS_PORT", 6379), os.environ.get("REDIS_DATABASE", 0))
+    # CELERY_RESULT_BACKEND = "redis://%s:%s/%s" % (os.environ.get(
+    #     "REDIS_HOST", "localhost"), os.environ.get(
+    #         "REDIS_PORT", 6379), os.environ.get("REDIS_DATABASE", 0))
+    CELERY_BROKER_URL=os.environ.get("REDIS_URI")
+    CELERY_RESULT_BACKEND=os.environ.get("REDIS_URI")
     CELERY_ACCEPT_CONTENT = ["json"]
     CELERY_TASK_SERIALIZER = "json"
     CELERY_ENABLE_UTC = True
