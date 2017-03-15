@@ -90,7 +90,7 @@ def create_app(config_name, register_blueprints=True):
         import logging
         
         class ContextFilter(logging.Filter):
-                hostname = "staffjoy-app-%s" % app.config.get("ENV")
+            hostname = "staffjoy-app-%s" % app.config.get("ENV")
 
             def filter(self, record):
                 record.hostname = ContextFilter.hostname
@@ -113,10 +113,6 @@ def create_app(config_name, register_blueprints=True):
         papertrail_tuple = app.config.get("PAPERTRAIL").split(":")
         syslog = SysLogHandler(
             address=(papertrail_tuple[0], int(papertrail_tuple[1])))
-
-        formatter = logging.(
-            '%(asctime)s %(hostname)s staffjoy-app %(levelname)s %(message)s',
-            datefmt='%Y-%m-%dFormatterT%H:%M:%S')
 
         syslog.setFormatter(formatter)
         syslog.setLevel(logging.INFO)
