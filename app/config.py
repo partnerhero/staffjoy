@@ -10,7 +10,7 @@ class DefaultConfig:
     URL = os.environ.get("BASE_URL", "https://suite.staffjoy.com")
 
     # Toggle this if you don't want randoms from the internet creating companies
-    ALLOW_COMPANY_SIGNUPS = True
+    ALLOW_COMPANY_SIGNUPS = False
 
     MANDRILL_API_KEY = os.environ.get("MANDRILL_API_KEY")
     FROM_EMAIL = os.environ.get("FROM_EMAIL")

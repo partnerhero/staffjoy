@@ -76,6 +76,8 @@ def _send_email(self, to, subject, html_body):
             "headers": {
                 "Reply-To": current_app.config.get("FROM_EMAIL"),
             },
+            'from_email': current_app.config.get("FROM_EMAIL"),
+            'from_name': 'Staffjoy',
             'to': [{
                 'email': to,
                 'type': 'to'

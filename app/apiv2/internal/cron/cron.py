@@ -22,7 +22,6 @@ from app.apiv2.internal.cron.cron_timeclock_notification_sms import run_cron_tim
 class ShiftMechanic(Resource):
     """ Cron job runner on Staffjoy states """
 
-    @permission_sudo
     def get(self):
         results = {}
 
