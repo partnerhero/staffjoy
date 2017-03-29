@@ -216,7 +216,7 @@ class ShiftMechanic(Resource):
             if s.state == "initial":
                 s.transition_to_unpublished()
 
-            s.transition_to_mobius_queue()
+            s.transition_to_published()
 
         return len(schedules_to_queue)  # For monitoring
 

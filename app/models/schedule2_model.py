@@ -200,6 +200,8 @@ class Schedule2(db.Model):
     @schedule_require_active
     def transition_to_chomp_queue(self):
         """ transition schedule state from unpublished to chomp queue """
+        self.promote_to_published()
+        return
 
         if self.state not in ["unpublished", "chomp-processing"]:
             raise Exception(
