@@ -1,8 +1,14 @@
+# Dependencies
+* Staffjoy PROD is deployed on a docker container running on [Zeit](https://zeit.co/).
+* Redis is hosted on [Compose.io](https://app.compose.io/session/new)
+* MySQL is hosted on [AWS](https://us-west-2.console.aws.amazon.com/console/home?region=us-west-2#)
+* The keepAlive service runs on a cron on a [private server](https://github.com/andrewtlove)
+* Logging is done through [Sentry.io](https://sentry.io/auth/login/)
+
 # Deploying to PH Prod
 
 Note: This uses the `--alias` flag, which is soon to be depreciated.
 `torus run -- now -t $PH_ZEIT_KEY -e BASE_URL -e ENV -e RECAPTCHA_PRIVATE_KEY -e RECAPTCHA_PUBLIC_KEY -e REDIS_HOST -e REDIS_PORT -e REDIS_PASSWORD -e REDIS_USER -e REDIS_URI -e SECRET_KEY -e SQLALCHEMY_DATABASE_URI -e MANDRILL_API_KEY -e TWILIO_ACCOUNT_SID -e TWILIO_AUTH_TOKEN -e FROM_EMAIL -e PAPERTRAIL -e SENTRY -a staffjoy.partnerhero.com --public`
-
 
 # Suite, aka Staffjoy V1
 
