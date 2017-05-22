@@ -1,0 +1,8 @@
+{
+  "name": "ph-redirector",
+  "version": "1.0.0",
+  "description": "A redirection service based on subdomain matching.",
+  "scripts": {
+    "torus": "torus run -- node -i"
+  }
+}
