@@ -29,8 +29,8 @@ RUN ln -s /src/conf/supervisor-app.conf /etc/supervisor/conf.d/
 RUN cd /src/ && make build
 
 # ROLL BACK DB
-RUN cd /src/ && make shell
-RUN db.session.rollback() 
+# RUN cd /src/ && make shell
+# RUN db.session.rollback() 
 
 # Expose - note that load balancer terminates SSL
 EXPOSE 80
