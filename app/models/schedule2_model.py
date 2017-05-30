@@ -298,8 +298,6 @@ class Schedule2(db.Model):
     @schedule_require_active
     def transition_to_mobius_queue(self):
         """ transition to queue for mobius processing """
-        self.promote_to_published()
-        return
 
 
         if self.state not in ["unpublished", "mobius-processing"]:
@@ -316,6 +314,11 @@ class Schedule2(db.Model):
         # logging
         current_app.logger.info("Schedule %s set to state %s" %
                                 (self.id, self.state))
+
+        # Patch - skip this state!
+        self.promote_to_mobius_processing()
+        self.promote_to_published()
+        return
 
     @schedule_require_active
     def transition_to_mobius_processing(self):
