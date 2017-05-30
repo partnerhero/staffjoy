@@ -214,6 +214,7 @@ class ScheduleApi(Resource):
                 changes["mobius_end"] = None
 
                 schedule.transition_to_mobius_queue()
+                del changes["state"]
 
             elif state == "unpublished":
                 if original_state not in ["initial", "chomp-processing"]:

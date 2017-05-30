@@ -167,6 +167,7 @@ class DevelopmentConfig(DefaultConfig):
     SQLALCHEMY_DATABASE_URI = "mysql://root:bacon@localhost/dev"
     SECRET_KEY = "It is a secret - and if I told you it would not be a secret"
     SERVER_NAME = "suite.local"
+    ALLOW_COMPANY_SIGNUPS = True
     # Time for state monitoring
     CHOMP_PROCESSING_TIMEOUT = 10 * 60  # 10 min in seconds
     MOBIUS_PROCESSING_TIMEOUT = 10 * 60  # 10 min in seconds
