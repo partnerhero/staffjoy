@@ -30,7 +30,11 @@ class ApiKey(db.Model):
 
     def verify_key(self, key):
         if check_password_hash(self.key_hash, key):
-            self.last_used = datetime.utcnow()
+            try:
+                self.last_used = datetime.utcnow()
+            except:
+                db.session.rollback()
+
             return True
         return False
 

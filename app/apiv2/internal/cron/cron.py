@@ -34,6 +34,7 @@ class ShiftMechanic(Resource):
 
         # Cleanup
         self._close_abandoned_timeclocks()
+        self._skip_mobius()
 
         # Monitoring
         self._monitor_active_incidents()
@@ -308,10 +309,7 @@ class ShiftMechanic(Resource):
             .join(Organization)\
             .filter(
                 Organization.active,
-                or_(
-                    Schedule2.state == "chomp-queue",
-                    Schedule2.state == "mobius-queue",
-                ),
+                Schedule2.state == "chomp-queue",
                 threshold  > Schedule2.last_update,
             ).all()
 
@@ -325,6 +323,24 @@ class ShiftMechanic(Resource):
                 % (schedule.id, elapsed, schedule.state))
 
         return
+
+    def _skip_mobius(self):
+        mobius_schedules = Schedule2.query\
+            .filter(
+                or_(
+                    Schedule2.state == "mobius-queue",
+                    Schedule2.state == "mobius-processing",
+                ),
+            ).all()
+
+        for schedule in mobius_schedules:
+            if schedule.state == "mobius-queue":
+                schedule.transition_to_mobius_processing()
+            schedule.transition_to_published()
+
+        return
+
+
 
     def _monitor_chomp_processing_too_long(self):
         """ check for chomp schedules that have been processing for too long """
