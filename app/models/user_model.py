@@ -112,8 +112,12 @@ class User(UserMixin, db.Model):
             return
 
         PingLimiter.mark_sent(self)
-        self.last_seen = datetime.utcnow()
-        db.session.add(self)
+        try:
+            self.last_seen = datetime.utcnow()
+            db.session.add(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
 
         # Now update intercom
         if current_app.config.get("ENV") == "dev":
