@@ -1,8 +1,9 @@
 {
   "name": "ph-redirector",
   "version": "1.0.0",
-  "description": "A redirection service based on subdomain matching.",
+  "description": "Staffjoy.",
   "scripts": {
-    "torus": "torus run -- node -i"
+    "torus": "torus run -- node -i",
+    "start": "torus run -- docker build ."
   }
 }
