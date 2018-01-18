@@ -141,24 +141,31 @@ def login():
 
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(
-            email=form.email.data.lower().strip()).first()
-        if user is None:
-            # Otherwise - see if they entered a username. Not labeled, but support it.
+
+        try:
+
             user = User.query.filter_by(
-                username=form.email.data.lower().strip()).first()
+                email=form.email.data.lower().strip()).first()
+            if user is None:
+                # Otherwise - see if they entered a username. Not labeled, but support it.
+                user = User.query.filter_by(
+                    username=form.email.data.lower().strip()).first()
 
-        if user is not None and user.active and user.verify_password(
-                form.password.data.strip()):
-            login_user(user, form.remember_me.data)
+            if user is not None and user.active and user.verify_password(
+                    form.password.data.strip()):
+                login_user(user, form.remember_me.data)
 
-            # Intelligently try to put users in the correct app upon login
-            if request.args.get("next"):
-                # User is following a link to the correct destination
-                return redirect(request.args.get("next"))
-            return redirect(url_for("main.index"))  # This will smart route
+                # Intelligently try to put users in the correct app upon login
+                if request.args.get("next"):
+                    # User is following a link to the correct destination
+                    return redirect(request.args.get("next"))
+                return redirect(url_for("main.index"))  # This will smart route
 
-        flash("Invalid email or password", "danger")
+            flash("Invalid email or password", "danger")
+
+        except Exception as e:
+            flash("Error in log-in, please try again in a couple of minutes", "danger")
+            current_app.logger.error(str(e))
 
     # Disable native cookie
     return make_response(render_template("login.html", form=form))

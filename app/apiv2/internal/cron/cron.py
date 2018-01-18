@@ -267,9 +267,9 @@ class ShiftMechanic(Resource):
     def _monitor_active_incidents(self):
         """ Query statuspage.io for active incidents """
         if not current_app.config.get("STATUS_PAGE_ID"):
-            current_app.logger.info(
-                "unable to monitor active incidents because STATUS_PAGE_ID not configured"
-            )
+            # current_app.logger.info(
+            #     "unable to monitor active incidents because STATUS_PAGE_ID not configured"
+            # )
             return
 
         try:

@@ -23,12 +23,21 @@ manager.add_command("runtestserver", Server(host="127.0.0.1", port=8080))
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+# @app.teardown_appcontext
+# def shutdown_session(exception=None):
+#     if app.config["SQLALCHEMY_COMMIT_ON_TEARDOWN"]:
+#         db.session.commit()
+#     db.session.remove()
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
-    if app.config["SQLALCHEMY_COMMIT_ON_TEARDOWN"]:
-        db.session.commit()
-    db.session.remove()
-
+    try:
+        if exception is None:
+            db.session.commit()
+    except Exception as e:
+        app.logger.exception("Error in appcontext teardown" + str(e.message))
+    finally:
+        db.session.remove()
 
 def make_shell_context():
     return dict(app=app,

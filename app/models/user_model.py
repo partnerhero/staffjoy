@@ -634,13 +634,18 @@ class User(UserMixin, db.Model):
         except:
             return None
 
-        if SessionCache.validate_session(
-                data.get("user_id", -1), data.get("session_id", "-1")):
-            user = User.query.get(data["user_id"])
-            user.set_session_id(data["session_id"])
-            current_app.logger.debug("Loading user %s from cookie session %s" %
-                                     (user.id, user.session_id))
-            return user
+        try:
+            if SessionCache.validate_session(
+                    data.get("user_id", -1), data.get("session_id", "-1")):
+                user = User.query.get(data["user_id"])
+                user.set_session_id(data["session_id"])
+                current_app.logger.debug("Loading user %s from cookie session %s" %
+                                         (user.id, user.session_id))
+                return user
+        except Exception as e:
+            current_app.logger.error("user get error" + str(e))
+
+
         return None
 
     def get_auth_token(self):
@@ -703,10 +708,15 @@ class User(UserMixin, db.Model):
         if not user_id or not session_id:
             return None
 
-        if SessionCache.validate_session(user_id, session_id):
-            user = User.query.get(user_id)
-            user.set_session_id(session_id)
-            return user
+        try:
+            if SessionCache.validate_session(user_id, session_id):
+                user = User.query.get(user_id)
+                user.set_session_id(session_id)
+                return user
+        except Exception as e:
+            current_app.logger.error("user get error" + str(e))
+
+
         return None
 
     def logout_session(self):

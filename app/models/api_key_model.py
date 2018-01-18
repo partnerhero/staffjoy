@@ -61,10 +61,14 @@ class ApiKey(db.Model):
         if not data.get("key"):
             return None
 
-        apikey = ApiKey.query.get(data.get("id"))
-        if apikey is not None:
-            if apikey.verify_key(data.get("key")):
-                return user_model.User.query.get(apikey.user_id)
+        try:
+            apikey = ApiKey.query.get(data.get("id"))
+            if apikey is not None:
+                if apikey.verify_key(data.get("key")):
+                    return user_model.User.query.get(apikey.user_id)
+        except Exception as e:
+            current_app.logger.error("Error in ApiKey.query.get" + str(e))
+
         return None
 
     @staticmethod
