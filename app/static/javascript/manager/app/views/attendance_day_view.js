@@ -153,10 +153,13 @@
                         _.each(model.get("timeclocks"), function(timeclock) {
                             var start = moment.utc(timeclock.start).tz(timezone),
                                 stop = moment.utc(timeclock.stop).tz(timezone),
-                                duration = start.preciseDiff(start)
+                                duration = start.preciseDiff(start),
+                                comment = timeclock.comment;
                             ;
 
                             totalTime += stop.diff(start);
+
+                            console.log("logging comment obtained: " + timeclock.comment); 
 
                             timeclocks.push({
                                 id: timeclock.id,
@@ -165,6 +168,7 @@
                                 start: start.format("hh:mm A"),
                                 stop: stop.format("hh:mm A"),
                                 duration: duration,
+                                comment: timeclock.comment,
                             });
                         });
 

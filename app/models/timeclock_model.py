@@ -13,6 +13,7 @@ class Timeclock(db.Model):
     start = db.Column(
         db.DateTime(), default=datetime.utcnow, index=True, nullable=False)
     stop = db.Column(db.DateTime(), default=None)
+    comment = db.Column(db.String(256), nullable=True)
 
     def has_overlaps(self):
         """ makes sure the timeclock_test doesn't overlaps with any other ones by the same user role """

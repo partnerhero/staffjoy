@@ -7,7 +7,7 @@ astroid==1.4.5
 billiard==3.3.0.23
 blinker==1.4
 celery==3.1.23
-cffi
+cffi==1.11.4
 colorama==0.3.7
 contextlib2==0.5.5
 cryptography==1.2.2
@@ -48,7 +48,7 @@ phonenumbers==7.2.6
 poster==0.8.1
 py==1.4.31
 pyasn1==0.1.9
-pycparser
+pycparser==2.18
 pylint==1.5.5
 pylint-flask==0.3
 pylint-plugin-utils==0.2.3

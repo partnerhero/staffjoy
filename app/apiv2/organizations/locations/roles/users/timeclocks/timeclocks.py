@@ -110,6 +110,9 @@ class TimeclocksApi(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("start", type=str)
         parser.add_argument("stop", type=str)
+        
+        parser.add_argument("comment", type=str)
+        
         parameters = parser.parse_args()
 
         # Filter out null values
@@ -137,7 +140,11 @@ class TimeclocksApi(Resource):
                     "You do not have permission to set a specific start or stop time, please remove them from the request."
                 }, 400
 
-        # do validation if parameters were supplied
+        if "comment" in parameters:
+            comment = parameters.get("comment")
+        else:
+            comment = None
+        
         if "start" in parameters:
             try:
                 start = iso8601.parse_date(parameters.get("start"))
@@ -199,7 +206,7 @@ class TimeclocksApi(Resource):
                 }, 400
 
         timeclock = Timeclock(
-            role_id=role_id, user_id=user_id, start=start, stop=stop)
+            role_id=role_id, user_id=user_id, start=start, stop=stop, comment=comment)
 
         # if the timeclock is being opened, don't check for an overlap
         # if a manager is creating a timeclock, check for an overlap

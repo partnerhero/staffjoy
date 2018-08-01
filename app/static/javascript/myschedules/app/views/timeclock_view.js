@@ -40,6 +40,7 @@
             this.$clock = $('#clock');
             this.$elapsed = $('#elapsed');
             this.$button = $('#timeclockButton');
+            this.$comment = $('#commentField');
             this.$duration = this.$el.find('.duration-container');
             this.startTime();
             this.startPolling();
@@ -55,7 +56,8 @@
         },
         timeclockButtonClick: function() {
             var self = this,
-                $button = this.$button
+                $button = this.$button,
+                $comment = this.$comment
             ;
 
             $button.addClass("disabled");
@@ -73,6 +75,8 @@
                         $.notify({ message: "Clocked out after " + moment.utc(timeclock.get('start')).preciseDiff(moment.utc(timeclock.get('stop'))) },{ type: "success" });
                         self.clockedOut();
                         $button.removeClass("disabled");
+                        $comment.prop('disabled', false);
+                        $comment.show();
                     },
                     error: function() {
                         $.notify({ message: "There was an error loading the page - please contact support if the problem persists" }, { type: "danger" });
@@ -82,18 +86,24 @@
                 });
             } else {
                 var timeclock = new Models.Timeclock();
-
+                
                 self.addUpstreamModels(timeclock);
 
-                timeclock.save({}, {
+                timeclock.save({
+                    "comment": $comment.val()
+                }, {
                     success: function() {
                         var timezone = jstz.determine().name();
 
+                        console.log('changed')
                         timeclock.set('start', moment.utc().format("YYYY-MM-DDTHH:mm:ss"));
+                        
                         self.collection.add(timeclock);
                         $.notify({ message: "Clocked in at " + moment.utc(timeclock.get('start')).tz(timezone).format('h:mm a')},{ type: "success" });
                         self.clockedIn();
                         $button.removeClass("disabled");
+                        $comment.prop('disabled', true);
+                        $comment.hide();
                     },
                     error: function() {
                         $.notify({ message: "There was an error loading the page - please contact support if the problem persists" }, { type: "danger" });
@@ -169,12 +179,16 @@
             self.$clockedIn.html(start.format('h:mm a'));
             self.$duration.slideDown();
             self.$button.html('Clock Out');
+            self.$comment.prop('disabled', true);
+            self.$comment.hide();
         },
         clockedOut: function() {
             var self = this;
 
             self.$duration.slideUp();
             self.$button.html('Clock In');
+            self.$comment.prop('disabled', false);
+            self.$comment.show();
         },
     });
 
