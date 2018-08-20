@@ -3,9 +3,9 @@
         <th class="col-xs-3">Worker</th>
         <th class="col-xs-2 text-center">Shifts</th>
         <th class="col-xs-3 text-center">Timeclocks</th>
-        <th class="col-xs-1 text-center">Scheduled</th>
+        <!-- <th class="col-xs-1 text-center">Scheduled</th> -->
         <th class="col-xs-1 text-center">Paid</th>
-        <th class="col-xs-2 text-center">Notes</th>
+        <th class="col-xs-3 text-center">Clock-In Comment</th>
     </thead>
     <tbody>
         {{#content}}
@@ -31,10 +31,10 @@
                     {{/inPast}}
                 {{/timeclocks}}
             </td>
-            <td class="text-center">{{totalExpected}}</td>
+            <!-- <td class="text-center">{{totalExpected}}</td> -->
             <td class="text-center">{{totalTime}}</td>
-            <td class="table-list text-center">
-                {{#paid}}
+            <td class="table-list">
+                <!-- {{#paid}}
                     <span data-id="{{timeOffRequest.id}}" data-user-id="{{timeOffRequest.user_id}}" data-role-id="{{timeOffRequest.role_id}}" class="label edit-time-off-request label-primary">Paid Time Off</span>
                 {{/paid}}
                 {{#unpaid}}
@@ -45,7 +45,11 @@
                 {{/sick}}
                 {{#denied}}
                     <span data-id="{{timeOffRequest.id}}" data-user-id="{{timeOffRequest.user_id}}" data-role-id="{{timeOffRequest.role_id}}" class="label edit-time-off-request label-info" >Denied Time Off</span>
-                {{/denied}}
+                {{/denied}} -->
+                {{#timeclocks}}
+                    <span>{{comment}}</span>
+                {{/timeclocks}}
+                
             </td>
         </tr>
         {{/content}}

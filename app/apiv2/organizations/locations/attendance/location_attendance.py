@@ -12,7 +12,7 @@ from app.apiv2.decorators import permission_location_manager, verify_org_locatio
 from app.apiv2.marshal import shift_fields, timeclock_fields, \
     time_off_request_fields
 
-CSV_HEADER = '"Name","Employee Id","Email","Organization","Location","Role","Start time (UTC)","End time (UTC)","Start time (Local timezone - %s)","End time (Local timezone - %s)","Type","Status","Duration (minutes)"'
+CSV_HEADER = '"Name","Employee Id","Email","Organization","Location","Role","Start time (UTC)","End time (UTC)","Start time (Local timezone - %s)","End time (Local timezone - %s)","Type","Status","Duration (minutes)","Clock-In Comment"'
 
 
 class LocationAttendanceApi(Resource):
@@ -140,6 +140,7 @@ class LocationAttendanceApi(Resource):
                         (record.stop - record.start).total_seconds() / 60)
                     record_type = "Recorded Time"
                     record_state = ""
+                    comment = record.comment
 
                 # time off requests
                 else:
@@ -149,6 +150,7 @@ class LocationAttendanceApi(Resource):
                     minutes = record.minutes_paid
                     record_type = "Time Off"
                     record_state = record.state.replace("_", " ").title()
+                    comment = ""
 
                 csv_rows.append(
                     ",".join(['"%s"'] * len(CSV_HEADER.split(","))) %
@@ -156,7 +158,7 @@ class LocationAttendanceApi(Resource):
                      if user.name is not None else "", rtu.internal_id or "",
                      user.email, organization.name, location.name, role.name,
                      start_utc, stop_utc, start_local, stop_local, record_type,
-                     record_state, minutes))
+                     record_state, minutes, comment))
 
             response = make_response("\n".join(csv_rows))
             response.headers[
@@ -211,6 +213,7 @@ class LocationAttendanceApi(Resource):
                             "time_off_requests": None,
                             "shifts": [],
                             "logged_time": elapsed_time,
+                            "comment": "",
                         }
 
                     if role_user_index in summary:
