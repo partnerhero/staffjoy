@@ -5,5 +5,6 @@ set -e
 # TODO - is this still necessary!?
 pip install -r requirements.txt
 
+npm install -g object-assign
 npm install -g less
 npm install -g eslint
