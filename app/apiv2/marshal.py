@@ -231,6 +231,7 @@ timeclock_fields = {
     "user_id": fields.Integer,
     "start": fields.DateTime(dt_format="iso8601"),
     "stop": fields.DateTime(dt_format="iso8601"),
+    "comment": fields.String,
 }
 
 time_off_request_fields = {
