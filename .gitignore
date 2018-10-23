@@ -75,3 +75,4 @@ app/static/stylesheets/*
 docker-compose.yml
 
 env.list
+.vscode
