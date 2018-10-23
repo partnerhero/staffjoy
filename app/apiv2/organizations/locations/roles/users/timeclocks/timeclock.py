@@ -40,8 +40,9 @@ class TimeclockApi(Resource):
         parser.add_argument("start", type=str)
         parser.add_argument("stop", type=str)
         parser.add_argument("close", type=inputs.boolean)
+        parser.add_argument("notify", type=inputs.boolean)
         parameters = parser.parse_args()
-
+    
         # Filter out null values
         parameters = dict((k, v) for k, v in parameters.iteritems()
                           if v is not None)
@@ -95,12 +96,12 @@ class TimeclockApi(Resource):
         else:
             stop = timeclock.stop
 
-        # end timeclock at existing time - must be only parameter defined
+        # end timeclock at existing time - must be only parameter defined besides an optional "notify"
         if "close" in parameters:
-            if set(("close", )) != set(parameters):
+            if not(set(("close", )) == set(parameters) or set(("close", "notify", )) == set(parameters)):
                 return {
                     "message":
-                    "Can not close timeclock with other parameters defined - please remove them from the request"
+                    "Can not close timeclock with other parameters defined besides notify - please remove them from the request"
                 }, 400
 
             if stop is not None:
@@ -109,6 +110,12 @@ class TimeclockApi(Resource):
                 }, 400
 
             changes["stop"] = datetime.datetime.utcnow().isoformat()
+
+        # This just lets us now if it has to send an email notifying the timeclock was changed.
+        if "notify" in parameters:
+            notify = parameters.get("notify")
+        else:
+            notify = True
 
         # stop still might be none, but if not, need to do some validation
         if stop is not None:
@@ -163,8 +170,8 @@ class TimeclockApi(Resource):
         else:
             g.current_user.track_event("timeclock_modified")
 
-        # always send an email if it's someone else's timeclock
-        if timeclock.user_id != g.current_user.id:
+        # send an email if it's someone else's timeclock, unless you set notify to false in the parameters
+        if timeclock.user_id != g.current_user.id and notify:
             alert_timeclock_change(timeclock, org_id, location_id, role_id,
                                    original_start, original_stop, user,
                                    g.current_user)

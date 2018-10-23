@@ -232,6 +232,7 @@ timeclock_fields = {
     "start": fields.DateTime(dt_format="iso8601"),
     "stop": fields.DateTime(dt_format="iso8601"),
     "comment": fields.String,
+    "notify": fields.Boolean,
 }
 
 time_off_request_fields = {
